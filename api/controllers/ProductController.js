@@ -2,6 +2,8 @@ const { product, category } = require("../models");
 
 class ProductController {
   static async getAll(req, res) {
+    // #swagger.summary = 'get all products'
+
     try {
       let result = await product.findAll({ include: [category] });
 
@@ -12,9 +14,15 @@ class ProductController {
   }
 
   static async getById(req, res) {
+    // #swagger.summary = 'get products by ID'
+    const id = +req.params.id;
+
     try {
-      const id = +req.params.id;
       let result = await product.findByPk(id);
+
+      if (!result) {
+        return res.status(404).json({ message: `id ${id} tidak ditemukan` });
+      }
 
       res.json(result);
     } catch (error) {
@@ -23,20 +31,24 @@ class ProductController {
   }
 
   static async create(req, res) {
-    try {
-      let { name, price, stock, description, categoryId } = req.body;
+    // swagger.summary = 'create new products'
+    let { name, price, stock, description, categoryId } = req.body;
+    let imageName = req.file ? req.file.filename : null;
+    let imageData = req.file ? req.file.buffer : null;
 
+    console.log(imageName, imageData);
+    try {
       let result = await product.create({
         name,
-        imageName: req.file.originalname || null,
-        imageData: req.file.buffer || null,
+        imageName,
+        imageData,
         price,
         stock,
         description,
         categoryId,
       });
 
-      res.json({ message: "succesfully created", result });
+      res.status(201).json({ message: "succesfully created", result });
     } catch (error) {
       res.status(500).json(error);
     }
@@ -50,10 +62,11 @@ class ProductController {
   }
 
   static async delete(req, res) {
-    try {
-      const id = +req.params.id;
-      let result = await product.destroy({ where: { id } });
+    // #swagger.summary = 'delete products by ID'
+    const id = +req.params.id;
+    let result = await product.destroy({ where: { id } });
 
+    try {
       if (!result) {
         return res.status(404).json({ message: `id ${id} tidak ditemukan` });
       }
@@ -65,14 +78,18 @@ class ProductController {
   }
 
   static async edit(req, res) {
+    // #swagger.summary = 'update products by ID'
+    const id = +req.params.id;
+    const { name, price, stock, description, categoryId } = req.body;
+    let imageName = req.file ? req.file.filename : null;
+    let imageData = req.file ? req.file.buffer : null;
+
     try {
-      const id = +req.params.id;
-      const { name, price, stock, description, categoryId } = req.body;
       let result = await product.update(
         {
           name,
-          imageName: req.file.originalname || null,
-          imageData: req.file.buffer || null,
+          imageName,
+          imageData,
           price,
           stock,
           description,
@@ -81,11 +98,11 @@ class ProductController {
         { where: { id } }
       );
 
-      if (!result) {
+      if (!result[0]) {
         return res.status(404).json({ message: `id ${id} tidak ditemukan` });
       }
 
-      res.json({ message: `id ${id} berhasil dirubah`, result });
+      res.json({ message: `id ${id} berhasil dirubah` });
     } catch (error) {
       res.status(500).json(error);
     }

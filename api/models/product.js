@@ -21,13 +21,19 @@ module.exports = (sequelize, DataTypes) => {
       },
       imageName: DataTypes.STRING,
       imageData: DataTypes.BLOB,
-      price: DataTypes.INTEGER,
-      stock: DataTypes.INTEGER,
+      price: {
+        type: DataTypes.INTEGER,
+        validate: { notEmpty: true, isInt: true },
+      },
+      stock: {
+        type: DataTypes.INTEGER,
+        validate: { notEmpty: true, isInt: true },
+      },
       description: DataTypes.TEXT,
       categoryId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: { notEmpty: true },
+        allowNull: true,
+        validate: { notEmpty: true, isInt: true },
       },
     },
     {

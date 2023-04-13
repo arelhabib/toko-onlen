@@ -7,10 +7,11 @@
     "start": "node app.js",
     "test": "nodemon app.js",
     "dbcreate": "sequelize db:create & sequelize db:migrate",
-    "dbdebug": "npm run dbdrop && npm run dbcreate && npm run db:seed",
+    "dbdebug": "npm run dbdrop && npm run dbcreate && npm run dbseed",
     "dbdrop": "sequelize db:drop",
     "dbreset": "npm run dbdrop && npm run dbcreate",
     "dbseed": "sequelize db:seed:all",
+    "dbprod": "sequelize db:migrate & sequelize db:seed --seed 20230412064903-role.js",
     "swaggen": "node ./utils/swaggerGen.js",
     "mager": "npm run dbreset && npm run dbseed && npm test"
   },

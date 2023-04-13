@@ -23,6 +23,13 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "role",
+      hooks: {
+        beforeDestroy: (item, options) => {
+          if (item.id === 1) {
+            throw new Error("Role admin cannot be deleted");
+          }
+        },
+      },
     }
   );
   return role;

@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       username: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: { notEmpty: true },
+        unique: true,
+        validate: { notEmpty: true, isAlphanumeric: true },
       },
       email: {
         type: DataTypes.STRING,
@@ -31,13 +31,19 @@ module.exports = (sequelize, DataTypes) => {
       },
       roleId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: { notEmpty: true, min: 1 },
+        validate: { notEmpty: true, isInt: true, min: 1 },
       },
     },
     {
       sequelize,
       modelName: "user",
+      hooks: {
+        beforeCreate: (item, options) => {
+          if (!item.roleId) {
+            item.roleId = 3;
+          }
+        },
+      },
     }
   );
   return user;

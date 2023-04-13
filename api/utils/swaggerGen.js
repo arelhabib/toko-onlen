@@ -15,6 +15,7 @@ const doc = {
       description: "the other server",
     },
   ],
+  tags: [{ name: "Users" }, { name: "Product" }, { name: "Category" }],
   securityDefinitions: {}, // by default: empty object
   components: {}, // by default: empty object (OpenAPI 3.x)
 };

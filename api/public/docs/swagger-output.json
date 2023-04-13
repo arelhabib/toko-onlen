@@ -15,6 +15,17 @@
       "description": "the other server"
     }
   ],
+  "tags": [
+    {
+      "name": "Users"
+    },
+    {
+      "name": "Product"
+    },
+    {
+      "name": "Category"
+    }
+  ],
   "securityDefinitions": {},
   "paths": {
     "/": {
@@ -34,6 +45,7 @@
         "tags": [
           "Users"
         ],
+        "summary": "get all users",
         "description": "",
         "parameters": [],
         "responses": {
@@ -51,6 +63,7 @@
         "tags": [
           "Users"
         ],
+        "summary": "get users by ID",
         "description": "",
         "parameters": [
           {
@@ -66,6 +79,9 @@
           "200": {
             "description": "OK"
           },
+          "404": {
+            "description": "Not Found"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -75,6 +91,7 @@
         "tags": [
           "Users"
         ],
+        "summary": "delete users by ID",
         "description": "",
         "parameters": [
           {
@@ -102,6 +119,7 @@
         "tags": [
           "Users"
         ],
+        "summary": "update users by ID",
         "description": "",
         "parameters": [
           {
@@ -154,11 +172,12 @@
         "tags": [
           "Users"
         ],
+        "summary": "create/register new users",
         "description": "",
         "parameters": [],
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "Created"
           },
           "500": {
             "description": "Internal Server Error"
@@ -231,6 +250,7 @@
         "tags": [
           "Product"
         ],
+        "summary": "get all products",
         "description": "",
         "parameters": [],
         "responses": {
@@ -249,8 +269,8 @@
         "description": "",
         "parameters": [],
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "Created"
           },
           "500": {
             "description": "Internal Server Error"
@@ -310,6 +330,7 @@
         "tags": [
           "Product"
         ],
+        "summary": "delete products by ID",
         "description": "",
         "parameters": [
           {
@@ -337,6 +358,7 @@
         "tags": [
           "Product"
         ],
+        "summary": "update products by ID",
         "description": "",
         "parameters": [
           {
@@ -390,6 +412,7 @@
         "tags": [
           "Product"
         ],
+        "summary": "get products by ID",
         "description": "",
         "parameters": [
           {
@@ -405,6 +428,9 @@
           "200": {
             "description": "OK"
           },
+          "404": {
+            "description": "Not Found"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -416,6 +442,7 @@
         "tags": [
           "Category"
         ],
+        "summary": "get all category",
         "description": "",
         "parameters": [],
         "responses": {
@@ -431,11 +458,12 @@
         "tags": [
           "Category"
         ],
+        "summary": "create new category",
         "description": "",
         "parameters": [],
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "Created"
           },
           "500": {
             "description": "Internal Server Error"
@@ -462,6 +490,7 @@
         "tags": [
           "Category"
         ],
+        "summary": "get category by ID",
         "description": "",
         "parameters": [
           {
@@ -477,6 +506,9 @@
           "200": {
             "description": "OK"
           },
+          "404": {
+            "description": "Not Found"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -486,6 +518,7 @@
         "tags": [
           "Category"
         ],
+        "summary": "delete category by ID",
         "description": "",
         "parameters": [
           {
@@ -513,6 +546,7 @@
         "tags": [
           "Category"
         ],
+        "summary": "update category by ID",
         "description": "",
         "parameters": [
           {
