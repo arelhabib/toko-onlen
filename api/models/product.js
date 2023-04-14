@@ -39,6 +39,12 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "product",
+      hooks: {
+        beforeCreate: (item, options) => {
+          item.price = item.price ? item.price : 0;
+          item.stock = item.stock || 0;
+        },
+      },
     }
   );
   return product;

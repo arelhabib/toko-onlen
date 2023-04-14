@@ -5,7 +5,10 @@ class ProductController {
     // #swagger.summary = 'get all products'
 
     try {
-      let result = await product.findAll({ include: [category] });
+      let result = await product.findAll({
+        include: [category],
+        order: [["id", "DESC"]],
+      });
 
       res.json(result);
     } catch (error) {
@@ -31,24 +34,31 @@ class ProductController {
   }
 
   static async create(req, res) {
-    // swagger.summary = 'create new products'
-    let { name, price, stock, description, categoryId } = req.body;
-    let imageName = req.file ? req.file.filename : null;
-    let imageData = req.file ? req.file.buffer : null;
+    // #swagger.summary = 'create new products'
+    /* 
+    
+    */
 
-    console.log(imageName, imageData);
+    let { name, price, stock, description, categoryId } = req.body;
+    let imageName = req.file ? req.file.originalname : null;
+    let data = req.file ? req.file.buffer : null;
+
+    // console.log(req.file);
     try {
       let result = await product.create({
         name,
         imageName,
-        imageData,
+        imageData: data,
         price,
         stock,
         description,
         categoryId,
       });
 
-      res.status(201).json({ message: "succesfully created", result });
+      const { imageData, ...response } = result.dataValues;
+      res
+        .status(201)
+        .json({ message: "succesfully created", result: response });
     } catch (error) {
       res.status(500).json(error);
     }

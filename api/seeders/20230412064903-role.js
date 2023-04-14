@@ -18,11 +18,11 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      {
-        level_access: "seller",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
+      // {
+      //   level_access: "seller",
+      //   createdAt: new Date(),
+      //   updatedAt: new Date(),
+      // },
       {
         level_access: "user",
         createdAt: new Date(),

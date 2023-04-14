@@ -5,7 +5,7 @@ class CategoryController {
     // #swagger.summary = 'get all category'
 
     try {
-      let result = await category.findAll();
+      let result = await category.findAll({ order: [["id", "DESC"]] });
 
       res.json(result);
     } catch (error) {

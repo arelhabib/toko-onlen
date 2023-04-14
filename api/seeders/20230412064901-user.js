@@ -20,11 +20,12 @@ module.exports = {
           password: "adminpass",
           roleId: 1,
         },
-        {
-          email: "seller@mail.com",
-          password: "sellerpass",
-          roleId: 2,
-        },
+        // ya kalo perlu
+        // {
+        //   email: "seller@mail.com",
+        //   password: "sellerpass",
+        //   roleId: 2,
+        // },
         {
           username: "user",
           email: "user@mail.com",

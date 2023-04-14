@@ -1,4 +1,6 @@
 "use strict";
+const { encryptPass } = require("../helpers/bcrypt");
+
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class user extends Model {
@@ -16,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       username: {
         type: DataTypes.STRING,
+        // did unique needs to be synchro to db first???
         unique: true,
         validate: { notEmpty: true, isAlphanumeric: true },
       },
@@ -38,9 +41,12 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: "user",
       hooks: {
-        beforeCreate: (item, options) => {
-          if (!item.roleId) {
-            item.roleId = 3;
+        beforeCreate: async (item, options) => {
+          try {
+            item.roleId = item.roleId || 2;
+            item.password = await encryptPass(item.password);
+          } catch (error) {
+            console.log(error);
           }
         },
       },

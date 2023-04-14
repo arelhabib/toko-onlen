@@ -7,17 +7,33 @@ const doc = {
   },
   servers: [
     {
-      url: "http://localhost:3000/",
+      url: "http://localhost:3000",
       description: "local server",
     },
     {
-      url: "http://localhost:5000/",
+      url: "http://localhost:5000",
       description: "the other server",
     },
   ],
   tags: [{ name: "Users" }, { name: "Product" }, { name: "Category" }],
-  securityDefinitions: {}, // by default: empty object
-  components: {}, // by default: empty object (OpenAPI 3.x)
+  definitions: {
+    RegisterUser: {
+      username: "john",
+      $email: "john@mail.com",
+      $password: "johnpassword",
+    },
+    RegisterAdmin: {
+      username: "admini",
+      $email: "admini@mail.com",
+      $password: "adminpassword",
+      roleId: 1,
+    },
+    login: {
+      username: "john",
+      email: "john@mail.com",
+      $password: "johnpassword",
+    },
+  },
 };
 
 const outputFile = "./public/docs/swagger-output.json";
