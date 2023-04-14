@@ -1,4 +1,4 @@
-require("dotenv").config;
+require("dotenv").config(); // besok lagi jan lupa tanda kurung
 
 module.exports = {
   development: {
@@ -23,5 +23,11 @@ module.exports = {
     host: process.env.DB_HOST,
     dialect: "postgres",
     logging: false,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
   },
 };

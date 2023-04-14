@@ -7,12 +7,12 @@ const doc = {
   },
   servers: [
     {
-      url: "http://localhost:3000",
-      description: "local server",
+      url: "https://toko-onlen-api.onrender.com",
+      description: "production",
     },
     {
-      url: "http://localhost:5000",
-      description: "the other server",
+      url: "http://localhost:3000",
+      description: "local server",
     },
   ],
   tags: [{ name: "Users" }, { name: "Product" }, { name: "Category" }],
