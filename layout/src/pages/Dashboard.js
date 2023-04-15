@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiUsers, FiMoreVertical, FiGrid, FiBox, FiTrendingUp } from "react-icons/fi";
+import { getProduct } from "../axiosFetch/product";
+import { getCategory } from "../axiosFetch/category";
+import { getUser } from "../axiosFetch/user";
 
 const Dashboard = () => {
+  const [product, setProduct] = useState([], 0)
+  const [user, setUser] = useState([], 0)
+  const [category, setCategory] = useState([], 0)
+
+  useEffect(() => {
+    getProduct((result) => setProduct(result))
+    getCategory((result) => setCategory(result))
+    getUser((result) => setUser(result))
+  }, [])
+
   return (
     <>
       <div className="dashboard">
@@ -22,7 +35,7 @@ const Dashboard = () => {
                 </div>
               </div>
               <div>
-                <p className="fs-4 ms-2 lh-sm fw-semibold">10</p>
+                <p className="fs-4 ms-2 lh-sm fw-semibold">{user.length}</p>
                 <p className="lh-sm mb-3 ms-2">Total user</p>
               </div>
             </div>
@@ -36,7 +49,7 @@ const Dashboard = () => {
                 </div>
               </div>
               <div>
-                <p className="fs-4 ms-2 lh-sm fw-semibold">101</p>
+                <p className="fs-4 ms-2 lh-sm fw-semibold">{product.length}</p>
                 <p className="lh-sm mb- ms-2">Total product</p>
               </div>
             </div>
@@ -50,7 +63,7 @@ const Dashboard = () => {
                 </div>
               </div>
               <div>
-                <p className="fs-4 ms-2 lh-sm fw-semibold">101</p>
+                <p className="fs-4 ms-2 lh-sm fw-semibold">{category.length}</p>
                 <p className="lh-sm mb-3 ms-2">Total category</p>
               </div>
             </div>
@@ -68,15 +81,15 @@ const Dashboard = () => {
         <div className="container">
           <div className="row p-2 ">
             <div className="col me-5 bg-white rounded-5 mt-3 pt-3">
-              <div class="row justify-content-between">
-                <div class="col fs-3 ms-2 mb-3">Product</div>
-                <div class="col text-end">
+              <div className="row justify-content-between">
+                <div className="col fs-3 ms-2 mb-3">Product</div>
+                <div className="col text-end">
                   <Link to="#" className="btn btn-primary me-2 mb-3">
                     +Product
                   </Link>
                 </div>
               </div>
-              <table class="table">
+              <table className="table">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -87,7 +100,7 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
+                  {/* <tr>
                     <th scope="row">1</th>
                     <td>Mark</td>
                     <td>Otto</td>
@@ -103,7 +116,20 @@ const Dashboard = () => {
                     <th scope="row">3</th>
                     <td colspan="2">Larry the Bird</td>
                     <td>@twitter</td>
-                  </tr>
+                  </tr> */}
+                  {/* harusnya dibawah imagedata ya */}
+                  {product.map((item, id) => {
+                    return (
+                      <tr key={item.id}>
+                        <th scope="row">{id +1 }</th>
+                        <td>{item.name}</td>
+                        <td>{item.imageName}</td>
+                        <td>{item.price}</td>
+                        <td>{item.stock}</td>
+                      </tr>
+                    )
+                  })}
+
                 </tbody>
               </table>
             </div>
