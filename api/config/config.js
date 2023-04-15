@@ -1,4 +1,5 @@
 require("dotenv").config(); // besok lagi jan lupa tanda kurung
+//render.com connect host via lokal gajalan, tpi bisa migrate
 
 module.exports = {
   development: {
