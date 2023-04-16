@@ -46,10 +46,19 @@ body {
   background-color: #f8fafb;
 }
 
+.content {
+  background-color: #f8fafb;
+  height: 100vh;
+}
 .sidebar {
-  background-color: #bdc1eb;
+  background-color: #f2f2fd;
+  height: 100vh;
 }
 
 a {
   text-decoration: none;
+}
+
+.icon-link:hover {
+  transform: translate3d(0, -0.125rem, 0);
 }

@@ -1,40 +1,39 @@
 import React, { useState, useEffect } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { FiUsers, FiMoreVertical, FiGrid, FiBox, FiTrendingUp } from "react-icons/fi";
-import { getData } from "../../axios/productAxios";
+import { Link, useNavigate } from "react-router-dom";
+import { getCategories, createCategory } from "../../axios/categoryAxios";
 import LoadData from "../../helpers/LoadData";
 import Navbar from "../Navbar";
 
-const Product = () => {
-  const [products, setProducts] = useState([]);
+const Category = () => {
+  const [categories, setCategories] = useState([]);
 
   const navigate = useNavigate;
 
   useEffect(() => {
-    getData((result) => setProducts(result));
+    getCategories((result) => setCategories(result));
   }, []);
 
-  // const deleteHandler = (id) => {
-  //   remove(id);
-  //   navigate("/users");
-  // };
+  const deleteHandler = (id) => {
+    createCategory(id);
+    navigate("/categoriess");
+  };
 
   return (
     <>
       <div className="container-fluid content">
         <div className="row">
           <Navbar></Navbar>
-          <div className="col m-5">
+          <div className="col-8 m-5">
             <div className="text-start py-3 mb-5">
               <h1>Good Morning,</h1>
               <small>welcome to dashboard</small>
             </div>
 
             <div class="row justify-content-between">
-              <div class="col fs-3 ms-2 mb-3">Product</div>
+              <div class="col fs-3 ms-2 mb-3">Category</div>
               <div class="col text-end">
                 <Link to="#" className="btn btn-primary me-2 mb-3">
-                  +Product
+                  +Category
                 </Link>
               </div>
             </div>
@@ -43,22 +42,25 @@ const Product = () => {
                 <tr className="text-center">
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
-                  <th scope="col">Price</th>
-                  <th scope="col">Stock</th>
-                  <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {products.length > 0 ? (
-                  products.map((Product, index) => {
-                    const { id, name, price, stock } = Product;
+                {categories.length > 0 ? (
+                  categories.map((Category, index) => {
+                    const { id, name } = Category;
                     return (
                       <tr key={id} className="text-center">
                         <td>{index + 1}</td>
                         <td>{name}</td>
-                        <td>{price}</td>
-                        <td>{stock}</td>
-                        <td></td>
+
+                        <td>
+                          <Link to={`/categoriess/edit/${id}`} className="btn btn-sm btn-info me-2">
+                            Edit
+                          </Link>
+                          <button onClick={() => deleteHandler(+id)} className="btn btn-sm btn-danger">
+                            Delete
+                          </button>
+                        </td>
                       </tr>
                     );
                   })
@@ -74,4 +76,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default Category;

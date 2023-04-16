@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getData, remove } from "../../axios/userAxios";
+import { getUsers, removeUser } from "../../axios/userAxios";
 import LoadData from "../../helpers/LoadData";
 import Navbar from "../Navbar";
 
@@ -10,17 +10,17 @@ const User = () => {
   const navigate = useNavigate;
 
   useEffect(() => {
-    getData((result) => setUsers(result));
+    getUsers((result) => setUsers(result));
   }, []);
 
   const deleteHandler = (id) => {
-    remove(id);
+    removeUser(id);
     navigate("/users");
   };
 
   return (
     <>
-      <div className="container-fluid bg-light">
+      <div className="container-fluid content">
         <div className="row">
           <Navbar></Navbar>
           <div className="col-8 m-5">
@@ -39,7 +39,7 @@ const User = () => {
             </div>
             <table class="table bg-white shadow-sm rounded-4">
               <thead>
-                <tr>
+                <tr className="text-center">
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
@@ -52,7 +52,7 @@ const User = () => {
                   users.map((User, index) => {
                     const { id, username, email, password, roleId } = User;
                     return (
-                      <tr key={id}>
+                      <tr key={id} className="text-center">
                         <td>{index + 1}</td>
                         <td>{username}</td>
                         <td>{email}</td>

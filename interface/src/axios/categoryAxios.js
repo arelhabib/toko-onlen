@@ -1,9 +1,9 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const URL = "https://toko-onlen-api.onrender.com/users";
+const URL = "http://localhost:3000/categories";
 
-const getUsers = async (cb) => {
+const getCategories = async (cb) => {
   try {
     let users = await axios({
       method: "GET",
@@ -15,7 +15,7 @@ const getUsers = async (cb) => {
   }
 };
 
-const createUser = async (product) => {
+const createCategory = async (product) => {
   try {
     let result = await axios({
       method: "POST",
@@ -29,7 +29,7 @@ const createUser = async (product) => {
   }
 };
 
-const removeUser = async (id) => {
+const removeCategory = async (id) => {
   try {
     Swal.fire({
       title: "Are you sure?",
@@ -54,4 +54,4 @@ const removeUser = async (id) => {
   }
 };
 
-export { getUsers, createUser, removeUser };
+export { getCategories, createCategory, removeCategory };

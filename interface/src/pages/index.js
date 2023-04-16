@@ -8,4 +8,7 @@ import Product from "./Products/Product";
 // User
 import User from "./Users/User";
 
-export { Home, Product, Dashboard, Navbar, User };
+// Category
+import Category from "./Categories/Category";
+
+export { Home, Product, Dashboard, Navbar, User, Category };

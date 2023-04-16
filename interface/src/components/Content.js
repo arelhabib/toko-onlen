@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { Home, Dashboard, Product, User } from "../pages";
+import { Home, Dashboard, Product, User, Category } from "../pages";
 
 const Content = () => {
   return (
@@ -14,6 +14,9 @@ const Content = () => {
 
         {/* User */}
         <Route path="/users" element={<User></User>}></Route>
+
+        {/*  */}
+        <Route path="/categories" element={<Category></Category>}></Route>
       </Routes>
     </div>
   );

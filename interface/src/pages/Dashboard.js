@@ -7,7 +7,7 @@ import { BsBox } from "react-icons/bs";
 const Dashboard = () => {
   return (
     <>
-      <div className="container-fluid bg-light">
+      <div className="container-fluid content">
         <div className="row">
           <Navbar></Navbar>
           <div className="col m-5">
