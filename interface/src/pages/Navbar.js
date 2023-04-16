@@ -23,7 +23,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/categories" className="nav-link icon-link icon-link-hover">
+              <Link to="/category" className="nav-link icon-link icon-link-hover">
                 <BsCardChecklist className="fs-3 me-2"></BsCardChecklist> Category
               </Link>
             </li>

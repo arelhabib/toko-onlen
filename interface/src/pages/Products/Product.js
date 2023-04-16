@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FiUsers, FiMoreVertical, FiGrid, FiBox, FiTrendingUp } from "react-icons/fi";
-import { getData } from "../../axios/productAxios";
+import { getProduct, removeProduct } from "../../axios/productAxios";
 import LoadData from "../../helpers/LoadData";
 import Navbar from "../Navbar";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
 
-  const navigate = useNavigate;
+  const navigation = useNavigate();
+  const deleteHandler = (id) => {
+    removeProduct(id);
+    navigation("/products");
+  };
 
   useEffect(() => {
-    getData((result) => setProducts(result));
+    getProduct((result) => setProducts(result));
   }, []);
 
   // const deleteHandler = (id) => {
@@ -51,29 +55,22 @@ const Product = () => {
               <tbody>
                 {products.length > 0 ? (
                   products.map((Product, index) => {
-                    const { id, name, price, stock, imageData } = Product;
-                    let imageBase64 = null
-                    try {
-                      imageBase64 = btoa(String.fromCharCode(...new Uint8Array(imageData.data)));
-                    } catch (error) {
-
-                    }
+                    const { id, name, price, stock } = Product;
                     return (
                       <tr key={id} className="text-center">
                         <td>{index + 1}</td>
-                        <td>
-                          <div class="row">
-                            <div class="col-2">
-                              <img class="img-fluid rounded-circle" src={"data:image/png;base64," + imageBase64} alt="" width="70px" />
-                            </div>
-                            <div class="col-10">
-                              {name}
-                            </div>
-                          </div>
-                        </td>
+                        <td>{name}</td>
                         <td>{price}</td>
                         <td>{stock}</td>
-                        <td></td>
+                        <td>
+                          <Link to={`/category/edit/${id}`} className="btn btn-sm btn-warning me-2">
+                            Update
+                          </Link>
+                          <button onClick={() => deleteHandler(+id)} className="btn btn-sm btn-danger">
+                            {" "}
+                            Delete
+                          </button>
+                        </td>
                       </tr>
                     );
                   })

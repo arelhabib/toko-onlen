@@ -58,8 +58,8 @@ const User = () => {
                         <td>{email}</td>
                         <td>{roleId}</td>
                         <td>
-                          <Link to={`/users/edit/${id}`} className="btn btn-sm btn-info me-2">
-                            Edit
+                          <Link to={`/users/edit/${id}`} className="btn btn-sm btn-warning me-2">
+                            Update
                           </Link>
                           <button onClick={() => deleteHandler(+id)} className="btn btn-sm btn-danger">
                             Delete

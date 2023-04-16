@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 
 const URL = "https://toko-onlen-api.onrender.com/products";
 
-const getData = async (cb) => {
+const getProduct = async (cb) => {
   try {
     let products = await axios({
       method: "GET",
@@ -15,7 +15,7 @@ const getData = async (cb) => {
   }
 };
 
-const create = async (product) => {
+const createProduct = async (product) => {
   try {
     let result = await axios({
       method: "POST",
@@ -29,4 +29,29 @@ const create = async (product) => {
   }
 };
 
-export { getData, create };
+const removeProduct = async (id) => {
+  try {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let result = await axios({
+          method: "DELETE",
+          url: URL + "/" + id,
+        });
+
+        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+      }
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export { getProduct, createProduct, removeProduct };

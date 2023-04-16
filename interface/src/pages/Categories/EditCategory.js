@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { addCategory } from "../../axios/categoryAxios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Navbar from "../Navbar";
 
 const CreateCategory = () => {
@@ -22,7 +22,7 @@ const CreateCategory = () => {
           <Navbar></Navbar>
           <div className="col m-5">
             <div className="text-center py-3 mb-5">
-              <h2 className="fw-bold">Create Form</h2>
+              <h2 className="fw-bold">Edit Form</h2>
               <small>category</small>
             </div>
 
@@ -34,7 +34,7 @@ const CreateCategory = () => {
               <div className="col create-button py-3 ms-5">
                 <button onClick={() => submitHandler()} className="btn btn-block btn-primary">
                   {" "}
-                  Create
+                  Update
                 </button>
               </div>
             </div>
