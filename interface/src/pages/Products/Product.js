@@ -51,11 +51,26 @@ const Product = () => {
               <tbody>
                 {products.length > 0 ? (
                   products.map((Product, index) => {
-                    const { id, name, price, stock } = Product;
+                    const { id, name, price, stock, imageData } = Product;
+                    let imageBase64 = null
+                    try {
+                      imageBase64 = btoa(String.fromCharCode(...new Uint8Array(imageData.data)));
+                    } catch (error) {
+
+                    }
                     return (
                       <tr key={id} className="text-center">
                         <td>{index + 1}</td>
-                        <td>{name}</td>
+                        <td>
+                          <div class="row">
+                            <div class="col-2">
+                              <img class="img-fluid rounded-circle" src={"data:image/png;base64," + imageBase64} alt="" width="70px" />
+                            </div>
+                            <div class="col-10">
+                              {name}
+                            </div>
+                          </div>
+                        </td>
                         <td>{price}</td>
                         <td>{stock}</td>
                         <td></td>
