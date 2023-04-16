@@ -35,8 +35,39 @@ class ProductController {
 
   static async create(req, res) {
     // #swagger.summary = 'create new products'
-    /* 
-    
+    /*
+    #swagger.requestBody = {
+      required: true,
+      content: {
+        "multipart/form-data": {
+          schema: {
+            type: "object",
+            properties: {
+              name: {
+                type: "string",
+              },
+              price: {
+                type: "integer",
+              },
+              stock: {
+                type: "integer",
+              },
+              description: {
+                type: "string",
+              },
+              categoryId: {
+                type: "integer",
+              },
+              image: {
+                type: "string",
+                format: "binary",
+              },
+            },
+            required: ["name"],
+          },
+        },
+      },
+    };
     */
 
     let { name, price, stock, description, categoryId } = req.body;
@@ -65,6 +96,8 @@ class ProductController {
   }
 
   static async addStock(req, res) {
+    // #swagger.summary = 'supposed to be add stock, by product Id'
+    // #swagger.ignore = true
     try {
     } catch (error) {
       res.status(500).json(error);
@@ -89,6 +122,43 @@ class ProductController {
 
   static async edit(req, res) {
     // #swagger.summary = 'update products by ID'
+    /*
+    #swagger.requestBody = {
+      required: true,
+      content: {
+        "multipart/form-data": {
+          schema: {
+            type: "object",
+            properties: {
+              name: {
+                type: "string",
+              },
+              price: {
+                type: "integer",
+                default: 0
+              },
+              stock: {
+                type: "integer",
+                default: 0
+              },
+              description: {
+                type: "string",
+              },
+              categoryId: {
+                type: "integer",
+              },
+              image: {
+                type: "string",
+                format: "binary",
+              },
+            },
+            required: ["name"],
+          },
+        },
+      },
+    };
+    */
+
     const id = +req.params.id;
     const { name, price, stock, description, categoryId } = req.body;
     let imageName = req.file ? req.file.filename : null;

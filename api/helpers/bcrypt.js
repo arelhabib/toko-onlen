@@ -7,7 +7,7 @@ const encryptPass = async (pwd) => {
 };
 
 const decryptPass = async (pwd, hash) => {
-  console.log(pwd, hash);
+  // console.log(pwd, hash);
   const result = await bcrypt.compare(String(pwd), hash);
   return result;
 };
