@@ -15,12 +15,12 @@ const getUsers = async (cb) => {
   }
 };
 
-const createUser = async (product) => {
+const addUser = async (user) => {
   try {
     let result = await axios({
       method: "POST",
-      url: URL,
-      data: product,
+      url: URL + "/register",
+      data: user,
     });
 
     Swal.fire("Add User", "User has been added", "success");
@@ -43,7 +43,7 @@ const removeUser = async (id) => {
       if (result.isConfirmed) {
         let result = await axios({
           method: "DELETE",
-          url: URL + "/users/" + id,
+          url: URL + "/" + id,
         });
 
         Swal.fire("Deleted!", "Your file has been deleted.", "success");
@@ -87,4 +87,4 @@ const getUserId = async (id, cb) => {
   }
 };
 
-export { getUsers, createUser, removeUser, loginUser, updateUser, getUserId };
+export { getUsers, addUser, removeUser, loginUser, updateUser, getUserId };

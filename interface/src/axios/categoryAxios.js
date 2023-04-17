@@ -68,4 +68,17 @@ const editCategory = async (id, category) => {
   }
 };
 
-export { getCategories, addCategory, removeCategory, editCategory };
+const accountCategory = async (id, cb) => {
+  try {
+    let result = await axios({
+      method: "GET",
+      url: URL + "/" + id,
+    });
+
+    cb(result.data);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export { getCategories, addCategory, removeCategory, editCategory, accountCategory };

@@ -3,7 +3,7 @@ import { addUser } from "../../axios/userAxios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 
-const CreateCategory = () => {
+const CreateUser = () => {
   const [form, setForm] = useState({
     username: "",
     email: "",
@@ -55,4 +55,4 @@ const CreateCategory = () => {
   );
 };
 
-export default CreateCategory;
+export default CreateUser;

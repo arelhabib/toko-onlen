@@ -27,12 +27,13 @@ const CreateCategory = () => {
             </div>
 
             <div className="col-6 offset-md-3 bg-white shadow-sm rounded-4">
-              <div className="mb-2 m-5 pt-3">
-                <label>Name: </label>
+              <div className="mb-3 mx-5 pt-3">
+                <label className="mb-2 fw-bold">Name</label>
                 <input onChange={(e) => setForm({ ...form, name: e.target.value })} type="text" className="form-control" autofocus></input>
               </div>
-              <div className="col create-button py-3 ms-5">
-                <button onClick={() => submitHandler()} className="btn btn-block btn-primary">
+
+              <div className="col mx-5 py-3">
+                <button onClick={() => submitHandler()} className="btn btn-block btn-primary w-100">
                   {" "}
                   Create
                 </button>

@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getUsers, removeUser } from "../../axios/userAxios";
 import LoadData from "../../helpers/LoadData";
 import Navbar from "../Navbar";
+import { useNavigate } from "react-router-dom";
 
 const User = () => {
   const [users, setUsers] = useState([]);
-
-  const navigate = useNavigate;
 
   useEffect(() => {
     getUsers((result) => setUsers(result));
   }, []);
 
+  const navigation = useNavigate();
   const deleteHandler = (id) => {
     removeUser(id);
-    navigate("/users");
+    navigation("/users");
   };
 
   return (
@@ -32,7 +32,7 @@ const User = () => {
             <div class="row justify-content-between">
               <div class="col fs-3 ms-2 mb-3">User</div>
               <div class="col text-end">
-                <Link to="#" className="btn btn-primary me-2 mb-3">
+                <Link to="/users/create" className="btn btn-primary me-2 mb-3">
                   +User
                 </Link>
               </div>
@@ -41,27 +41,29 @@ const User = () => {
               <thead>
                 <tr className="text-center">
                   <th scope="col">#</th>
-                  <th scope="col">Name</th>
+                  <th scope="col">Username</th>
                   <th scope="col">Email</th>
-                  <th scope="col">Level Access</th>
+                  <th scope="col">Password</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {users.length > 0 ? (
                   users.map((User, index) => {
-                    const { id, username, email, roleId } = User;
+                    const { id, username, email, password } = User;
                     return (
                       <tr key={id} className="text-center">
                         <td>{index + 1}</td>
                         <td>{username}</td>
                         <td>{email}</td>
-                        <td>{roleId}</td>
+                        <td>{password}</td>
+
                         <td>
                           <Link to={`/users/edit/${id}`} className="btn btn-sm btn-warning me-2">
                             Update
                           </Link>
                           <button onClick={() => deleteHandler(+id)} className="btn btn-sm btn-danger">
+                            {" "}
                             Delete
                           </button>
                         </td>
