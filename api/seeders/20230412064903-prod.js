@@ -1,5 +1,5 @@
 "use strict";
-const { user } = require("../models");
+const { user, roles } = require("../models");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert("roles", [
+    await roles.bulkCreate([
       {
         level_access: "admin",
         createdAt: new Date(),
