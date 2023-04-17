@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaEdit, FaTimes } from "react-icons/fa";
 import { getProduct, removeProduct } from "../../axios/productAxios";
 import LoadData from "../../helpers/LoadData";
 import Navbar from "../Navbar";
-// import { FaTimes, FaEdit } from "react-icons/fa";
+import { FaTimes, FaEdit } from "react-icons/fa";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
