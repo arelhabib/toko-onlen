@@ -6,14 +6,13 @@
   "scripts": {
     "start": "node app.js",
     "test": "nodemon app.js",
-    "dbcreate": "sequelize db:create & sequelize db:migrate",
-    "dbdebug": "npm run dbdrop && npm run dbcreate && npm run dbseed",
-    "dbdrop": "sequelize db:drop",
+    "dbcreate": "npx sequelize db:create",
+    "dbdebug": "npm run dbdrop & npm run dbcreate && npx sequelize db:migrate && npx sequelize db:seed:all",
+    "dbdrop": "npx sequelize db:drop",
     "dbreset": "npm run dbdrop && npm run dbcreate",
-    "dbseed": "sequelize db:seed:all",
-    "dbprod": "sequelize db:migrate & sequelize db:seed --seed 20230412064903-role.js",
+    "dbprod": "npx sequelize db:migrate & npx sequelize db:seed --seed 20230412064903-prod.js",
     "swaggen": "node ./utils/swaggerGen.js",
-    "mager": "npm run dbreset && npm run dbseed && npm test"
+    "mager": "npm run dbdebug && npm run swaggen && npm test"
   },
   "author": "",
   "license": "ISC",
