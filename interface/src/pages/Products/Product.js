@@ -37,7 +37,7 @@ const Product = () => {
             <div class="row justify-content-between">
               <div class="col fs-3 ms-2 mb-3">Product</div>
               <div class="col text-end">
-                <Link to="#" className="btn btn-primary me-2 mb-3">
+                <Link to="/products/create" className="btn btn-primary me-2 mb-3">
                   +Product
                 </Link>
               </div>
@@ -56,12 +56,10 @@ const Product = () => {
                 {products.length > 0 ? (
                   products.map((Product, index) => {
                     const { id, name, price, stock, imageData } = Product;
-                    let imageBase64 = null
+                    let imageBase64 = null;
                     try {
                       imageBase64 = btoa(String.fromCharCode(...new Uint8Array(imageData.data)));
-                    } catch (error) {
-
-                    }
+                    } catch (error) {}
                     return (
                       <tr key={id} className="text-center">
                         <td>{index + 1}</td>
@@ -70,9 +68,7 @@ const Product = () => {
                             <div class="col-2">
                               <img class="img-fluid rounded-circle" src={"data:image/png;base64," + imageBase64} alt="" width="70px" />
                             </div>
-                            <div class="col-10">
-                              {name}
-                            </div>
+                            <div class="col-10">{name}</div>
                           </div>
                         </td>
                         <td>{price}</td>

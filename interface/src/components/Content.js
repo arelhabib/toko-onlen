@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Home, Dashboard, Product, User, CreateUser, Category, CreateCategory, EditCategory } from "../pages";
+import { Home, Dashboard, Product, CreateProduct, User, CreateUser, Category, CreateCategory, EditCategory } from "../pages";
 import jwt_decode from "jwt-decode";
 
 const Content = () => {
@@ -35,6 +35,7 @@ const Content = () => {
 
             {/* Product */}
             <Route path="products" element={<Product></Product>}></Route>
+            <Route path="products/create" element={<CreateProduct></CreateProduct>}></Route>
 
             {/* User */}
             <Route path="users" element={<User></User>}></Route>
