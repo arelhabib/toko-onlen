@@ -6,11 +6,11 @@
   "scripts": {
     "start": "node app.js",
     "test": "nodemon app.js",
-    "dbcreate": "npx sequelize db:create",
-    "dbdebug": "npm run dbdrop & npm run dbcreate && npx sequelize db:migrate && npx sequelize db:seed:all",
-    "dbdrop": "npx sequelize db:drop",
+    "dbcreate": "npx sequelize-cli db:create",
+    "dbdebug": "npm run dbdrop & npm run dbcreate && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+    "dbdrop": "npx sequelize-cli db:drop",
     "dbreset": "npm run dbdrop && npm run dbcreate",
-    "dbprod": "npx sequelize db:migrate & npx sequelize db:seed --seed 20230412064903-prod.js",
+    "dbprod": "npx sequelize-cli db:migrate & npx sequelize db:seed --seed 20230412064903-prod.js",
     "swaggen": "node ./utils/swaggerGen.js",
     "mager": "npm run dbdebug && npm run swaggen && npm test"
   },
@@ -25,11 +25,11 @@
     "multer": "^1.4.5-lts.1",
     "pg": "^8.10.0",
     "sequelize": "^6.31.0",
+    "sequelize-cli": "^6.6.0",
     "swagger-ui-express": "^4.6.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.22",
-    "sequelize-cli": "^6.6.0",
     "swagger-autogen": "^2.23.1"
   }
 }
