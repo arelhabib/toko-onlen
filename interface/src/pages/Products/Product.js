@@ -4,6 +4,7 @@ import { FiUsers, FiMoreVertical, FiGrid, FiBox, FiTrendingUp } from "react-icon
 import { getProduct, removeProduct } from "../../axios/productAxios";
 import LoadData from "../../helpers/LoadData";
 import Navbar from "../Navbar";
+import { FaTimes, FaEdit } from "react-icons/fa";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -74,12 +75,12 @@ const Product = () => {
                         <td>{price}</td>
                         <td>{stock}</td>
                         <td>
-                          <Link to={`/category/edit/${id}`} className="btn btn-sm btn-warning me-2">
-                            Update
+                          <Link to={`/category/edit/${id}`} className="btn btn-sm btn-success me-2" title="Edit">
+                            <FaTimes></FaTimes>
                           </Link>
-                          <button onClick={() => deleteHandler(+id)} className="btn btn-sm btn-danger">
+                          <button onClick={() => deleteHandler(+id)} className="btn btn-sm btn-danger" title="Delete">
                             {" "}
-                            Delete
+                            <FaEdit></FaEdit>
                           </button>
                         </td>
                       </tr>

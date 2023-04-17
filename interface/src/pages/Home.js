@@ -142,7 +142,7 @@ const Home = () => {
       </div>
       {/* Jumbotron */}
       <div className="jumbotron py-5">
-        <div className="container ">
+        <div className="container pt-3">
           <div className="w-50">
             <h1 className="display-4 fw-semibold">Ramadhan Style!</h1>
             <p className="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, totam nostrum. Sequi vero iusto ex eaque! Deleniti debitis, laboriosam doloremque officia vel aliquid velit consectetur.</p>
@@ -434,22 +434,22 @@ const Home = () => {
               <p className="py-2">APL Tower 30th Floor, Jl. Letjen S. Parman Kav. 28 Jakarta, 11470, Indonesia</p>
             </div>
             <div className="col-2">
-              <Link className="navbar-brand brand-logo fs-4 fw-semibold" to="/">
-                About Us
+              <Link className="navbar-brand brand-logo fs-5 fw-semibold opacity-75" to="/">
+                Link Terkait
               </Link>
             </div>
             <div className="col-2">
-              <Link className="navbar-brand brand-logo fs-4 fw-semibold" to="/">
-                Service
+              <Link className="navbar-brand brand-logo fs-5 fw-semibold opacity-75" to="/">
+                Layanan
               </Link>
             </div>
             <div className="col-2">
-              <Link className="navbar-brand brand-logo fs-4 fw-semibold" to="/">
+              <Link className="navbar-brand brand-logo fs-5 fw-semibold opacity-75" to="/">
                 Department
               </Link>
             </div>
             <div className="col-2">
-              <Link className="navbar-brand brand-logo fs-4 fw-semibold" to="/">
+              <Link className="navbar-brand brand-logo fs-5 fw-semibold opacity-75" to="/">
                 Hubungi Kami
               </Link>
             </div>
