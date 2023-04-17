@@ -1,5 +1,5 @@
 "use strict";
-const { user, roles } = require("../models");
+const { user, role } = require("../models");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await roles.bulkCreate([
+    await role.bulkCreate([
       {
         level_access: "admin",
         createdAt: new Date(),
