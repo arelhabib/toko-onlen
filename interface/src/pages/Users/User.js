@@ -38,7 +38,7 @@ const User = () => {
                 </Link>
               </div>
             </div>
-            <table class="table bg-white shadow-sm rounded-4">
+            <table class="table bg-white shadow-sm rounded-4 table-striped">
               <thead>
                 <tr className="text-center">
                   <th scope="col">#</th>
