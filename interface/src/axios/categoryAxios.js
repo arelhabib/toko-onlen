@@ -17,7 +17,7 @@ const getCategories = async (cb) => {
 
 const addCategory = async (category) => {
   try {
-    let result = await axios({
+    await axios({
       method: "POST",
       url: URL + "/",
       data: category,
@@ -40,7 +40,7 @@ const removeCategory = async (id) => {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        let result = await axios({
+        await axios({
           method: "DELETE",
           url: URL + "/" + id,
         });

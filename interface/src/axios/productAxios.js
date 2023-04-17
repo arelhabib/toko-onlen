@@ -15,17 +15,49 @@ const getProduct = async (cb) => {
   }
 };
 
+const getProductId = async (id, cb) => {
+  try {
+    let result = await axios.get(URL + `/${id}`);
+
+    cb(result.data);
+  } catch (error) {
+    Swal.fire("Failed", "failed to fetch product id", "error");
+  }
+};
+
 const createProduct = async (product) => {
   try {
-    let result = await axios({
+    await axios({
       method: "POST",
       url: URL,
       data: product,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        access_token: localStorage.access_token,
+      },
     });
 
     Swal.fire("Add Product", "Product has been added", "success");
   } catch (e) {
     console.log(e);
+  }
+};
+
+const editProduct = async (id, product) => {
+  try {
+    await axios({
+      method: "PUT",
+      url: URL + `/${id}`,
+      data: product,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        access_token: localStorage.access_token,
+      },
+    });
+
+    Swal.fire("Success", "succesfully updated the product", "success");
+  } catch (error) {
+    Swal.fire("Failed", "failed to update product", "error");
   }
 };
 
@@ -41,7 +73,7 @@ const removeProduct = async (id) => {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        let result = await axios({
+        await axios({
           method: "DELETE",
           url: URL + "/" + id,
         });
@@ -54,4 +86,4 @@ const removeProduct = async (id) => {
   }
 };
 
-export { getProduct, createProduct, removeProduct };
+export { getProduct, createProduct, removeProduct, getProductId, editProduct };

@@ -17,7 +17,7 @@ const getUsers = async (cb) => {
 
 const addUser = async (user) => {
   try {
-    let result = await axios({
+    await axios({
       method: "POST",
       url: URL + "/register",
       data: user,
@@ -41,7 +41,7 @@ const removeUser = async (id) => {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        let result = await axios({
+        await axios({
           method: "DELETE",
           url: URL + "/" + id,
         });
@@ -62,8 +62,20 @@ const loginUser = async (data, cb) => {
     localStorage.setItem("access_token", access_token);
 
     cb(true);
+    window.location.reload();
   } catch (error) {
-    Swal.fire("Failed", "failed to login", "error");
+    let timerInterval;
+    Swal.fire({
+      title: "Failed",
+      text: "failed to login, email or password is incorrect",
+      timer: 2000,
+      timerProgressBar: true,
+      willClose: () => {
+        clearInterval(timerInterval);
+      },
+    }).then(() => {
+      window.location.reload();
+    });
   }
 };
 

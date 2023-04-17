@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { addUser } from "../../axios/userAxios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 
 const CreateUser = () => {
@@ -10,12 +10,17 @@ const CreateUser = () => {
     password: "123",
   });
 
+  const location = useLocation();
   const navigation = useNavigate();
 
   const submitHandler = () => {
     addUser(form);
-    navigation("/users");
-  };
+    if (location.pathname === '/register') {
+      navigation('/')
+    } else {
+      navigation("/users");
+    }
+  }
 
   return (
     <>

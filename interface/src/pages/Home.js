@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FiUser, FiShoppingCart } from "react-icons/fi";
+import { FiUser, FiShoppingCart, FiUserPlus } from "react-icons/fi";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
 import { loginUser } from "../axios/userAxios";
 import jwt_decode from "jwt-decode";
@@ -17,27 +17,27 @@ const Home = () => {
     event.preventDefault();
     try {
       await loginUser(form, (result) => {
-        setLoginStatus(result);
-      });
-
-      window.location.reload();
-    } catch (error) {}
+        setLoginStatus(result)
+      })
+    } catch (error) {
+    }
   };
 
   const logoutHandler = () => {
-    localStorage.removeItem("access_token");
-    setLoginStatus(false);
-    setIsAdmin(false);
-  };
+    localStorage.removeItem('access_token')
+    setLoginStatus(false)
+    setIsAdmin(false)
+    window.location.reload()
+  }
 
   useEffect(() => {
     let token = localStorage.getItem("access_token");
     if (token) {
       let decoded = jwt_decode(token);
       if (decoded.roleId === 1) {
-        setIsAdmin(true);
+        setIsAdmin(true)
       }
-      setLoginStatus(true);
+      setLoginStatus(true)
     } else {
       setLoginStatus(false);
     }
@@ -89,9 +89,14 @@ const Home = () => {
                   </Link>
                 </>
               ) : (
-                <Link type="button" className="nav-link hover" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                  <FiUser className="fs-5 mb-1"></FiUser> Login / Register
-                </Link>
+                  <>
+                    <Link type="button" className="nav-link hover" to={'/register'}>
+                      <FiUserPlus className="fs-5 mb-1"></FiUserPlus> Register
+                    </Link>
+                  <Link type="button" className="nav-link hover" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <FiUser className="fs-5 mb-1"></FiUser> Login
+                  </Link>
+                  </>
               )}
               {isAdmin ? (
                 <Link className="nav-link" to="/dashboard">
@@ -125,14 +130,14 @@ const Home = () => {
                   </label>
                   <input onChange={(e) => setForm({ ...form, email: e.target.value })} type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" autoFocus required />
                 </div>
-                <div className="mb-3">
+                <div className="mb-4">
                   <label htmlFor="exampleInputPassword1" className="form-label">
                     Password
                   </label>
                   <input onChange={(e) => setForm({ ...form, password: e.target.value })} type="password" className="form-control" id="exampleInputPassword1" required />
                 </div>
 
-                <button type="submit" className="btn btn-success">
+                <button type="submit" className="btn btn-success w-25">
                   Login
                 </button>
               </form>

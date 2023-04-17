@@ -44,20 +44,20 @@ const User = () => {
                   <th scope="col">#</th>
                   <th scope="col">Username</th>
                   <th scope="col">Email</th>
-                  <th scope="col">Password</th>
+                  <th scope="col">Role</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {users.length > 0 ? (
                   users.map((User, index) => {
-                    const { id, username, email, password } = User;
+                    const { id, username, email, role } = User;
                     return (
                       <tr key={id} className="text-center">
                         <td>{index + 1}</td>
                         <td>{username}</td>
                         <td>{email}</td>
-                        <td>{password}</td>
+                        <td>{role.level_access}</td>
 
                         <td>
                           <Link to={`/users/edit/${id}`} className="btn btn-sm btn-success me-2" title="edit">
