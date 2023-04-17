@@ -50,7 +50,7 @@ const User = () => {
               <tbody>
                 {users.length > 0 ? (
                   users.map((User, index) => {
-                    const { id, username, email, password, roleId } = User;
+                    const { id, username, email, roleId } = User;
                     return (
                       <tr key={id} className="text-center">
                         <td>{index + 1}</td>

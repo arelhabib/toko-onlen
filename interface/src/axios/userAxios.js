@@ -54,4 +54,37 @@ const removeUser = async (id) => {
   }
 };
 
-export { getUsers, createUser, removeUser };
+const loginUser = async (data, cb) => {
+  try {
+    let result = await axios.post(URL + "/login", data);
+
+    const access_token = result.data.access_token;
+    localStorage.setItem("access_token", access_token);
+
+    cb(true);
+  } catch (error) {
+    Swal.fire("Failed", "failed to login", "error");
+  }
+};
+
+const updateUser = async (id, data) => {
+  try {
+    await axios.put(URL + `/${id}`, data);
+
+    Swal.fire("Success", "succesfully deleted the user", "success");
+  } catch (error) {
+    Swal.fire("Failed", "failed to update user", "error");
+  }
+};
+
+const getUserId = async (id, cb) => {
+  try {
+    let result = await axios.get(URL + `/${id}`);
+
+    cb(result.data);
+  } catch (error) {
+    Swal.fire("Failed", "failed to fetch user id", "error");
+  }
+};
+
+export { getUsers, createUser, removeUser, loginUser, updateUser, getUserId };

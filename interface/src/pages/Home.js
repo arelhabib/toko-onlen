@@ -1,8 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiUser, FiShoppingCart } from "react-icons/fi";
+import { MdOutlineDashboardCustomize } from "react-icons/md"
+import { loginUser } from "../axios/userAxios";
+import jwt_decode from "jwt-decode"
 
 const Home = () => {
+  const [loginStatus, setLoginStatus] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+  })
+
+  const loginSubmitHandler = async (event) => {
+    event.preventDefault();
+    try {
+      await loginUser(form, (result) => {
+        setLoginStatus(result)
+      })
+
+      window.location.reload()
+    } catch (error) {
+    }
+  };
+
+  const logoutHandler = () => {
+    localStorage.removeItem('access_token')
+    setLoginStatus(false)
+    setIsAdmin(false)
+  }
+
+  useEffect(() => {
+    let token = localStorage.getItem('access_token')
+    if (token) {
+      let decoded = jwt_decode(token);
+        if (decoded.roleId === 1) {
+          setIsAdmin(true)
+        }
+      setLoginStatus(true)
+    } else {
+      setLoginStatus(false)
+    }
+  }, [loginStatus])
+
+  // console.log(isAdmin);
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-warning bg-light">
@@ -40,43 +83,55 @@ const Home = () => {
 
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav ms-auto brand-logo">
-              <Link type="button" className="nav-link hover" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <FiUser className="fs-5 mb-1"></FiUser> Login / Register
-              </Link>
-              <Link className="nav-link" to="/items">
-                <FiShoppingCart className="fs-5 mb-1"></FiShoppingCart> Cart
-              </Link>
+              {
+                loginStatus ?
+                  <>
+                    <Link className="nav-link" onClick={logoutHandler}>
+                      <FiUser className="fs-5 mb-1"></FiUser> Logout
+                    </Link>
+                  </> :
+                  <Link type="button" className="nav-link hover" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <FiUser className="fs-5 mb-1"></FiUser> Login / Register
+                  </Link>
+              }
+              {isAdmin ? <Link className="nav-link" to="/dashboard">
+                <MdOutlineDashboardCustomize className="fs-5 mb-1"></MdOutlineDashboardCustomize> Dashboard Menu
+              </Link> :
+                <Link className="nav-link" to="/items">
+                  <FiShoppingCart className="fs-5 mb-1"></FiShoppingCart> Cart
+                </Link>
+              }
             </div>
           </div>
         </div>
       </nav>
 
       {/* Modal Login */}
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered w-75 ">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">
+      <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered w-75 ">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="exampleModalLabel">
                 Login
               </h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body mx-3 ">
-              <form>
-                <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">
+            <div className="modal-body mx-3 ">
+              <form onSubmit={loginSubmitHandler}>
+                <div className="mb-3">
+                  <label htmlFor="exampleInputEmail1" className="form-label">
                     Email address
                   </label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" autofocus required />
+                  <input onChange={(e) => setForm({ ...form, email: e.target.value })} type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" autoFocus required />
                 </div>
-                <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label">
+                <div className="mb-3">
+                  <label htmlFor="exampleInputPassword1" className="form-label">
                     Password
                   </label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" required />
+                  <input onChange={(e) => setForm({ ...form, password: e.target.value })} type="password" className="form-control" id="exampleInputPassword1" required />
                 </div>
 
-                <button type="submit" class="btn btn-success">
+                <button type="submit" className="btn btn-success">
                   Login
                 </button>
               </form>
@@ -144,9 +199,9 @@ const Home = () => {
       <div className="container mb-5">
         <div className="row">
           <div className="mb-4">
-            <div class="row justify-content-between">
-              <div class="col fs-4 fw-bold ms-2 mb-3">Fashion Pria</div>
-              <div class="col text-end">
+            <div className="row justify-content-between">
+              <div className="col fs-4 fw-bold ms-2 mb-3">Fashion Pria</div>
+              <div className="col text-end">
                 <Link to="#" className="me-2 mb-3 text-dark icon-link-hover">
                   <p className="fw-semibold d-inline text-end w-50 hover">lihat semua</p>
                 </Link>
@@ -257,9 +312,9 @@ const Home = () => {
       {/* Fashion Wanita */}
       <div className="container mb-5">
         <div className="row">
-          <div class="row justify-content-between">
-            <div class="col fs-4 fw-bold ms-2 mb-3">Fashion Perempuan</div>
-            <div class="col text-end">
+          <div className="row justify-content-between">
+            <div className="col fs-4 fw-bold ms-2 mb-3">Fashion Perempuan</div>
+            <div className="col text-end">
               <Link to="#" className="me-2 mb-3 text-dark icon-link-hover">
                 <p className="fw-semibold d-inline text-end w-50 hover">lihat semua</p>
               </Link>
