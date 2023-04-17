@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FiMoreVertical, FiTrendingUp } from "react-icons/fi";
 import { BsBox, BsPeople, BsCardChecklist } from "react-icons/bs";
 import Navbar from "./Navbar";
+import { getProduct } from "../axios/productAxios";
+import { getCategories } from "../axios/categoryAxios";
+import { getUsers } from "../axios/userAxios";
 
 const Dashboard = () => {
+  const [product, setProduct] = useState([], 0);
+  const [user, setUser] = useState([], 0);
+  const [category, setCategory] = useState([], 0);
+
+  useEffect(() => {
+    getProduct((result) => setProduct(result));
+    getCategories((result) => setCategory(result));
+    getUsers((result) => setUser(result));
+  }, []);
+
   return (
     <>
       <div className="container-fluid content">
@@ -26,8 +39,8 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div>
-                  <p className="fs-4 ms-2 lh-sm fw-semibold">10</p>
-                  <p className="lh-sm mb-3 ms-2">Total user</p>
+                  <p className="fs-4 ms-2 lh-sm fw-semibold">{product.length}</p>
+                  <p className="lh-sm mb-3 ms-2">Total Product</p>
                 </div>
               </div>
               <div className="col m-2 shadow-sm rounded-5 bg-white">
@@ -40,8 +53,8 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div>
-                  <p className="fs-4 ms-2 lh-sm fw-semibold">10</p>
-                  <p className="lh-sm mb-3 ms-2">Total user</p>
+                  <p className="fs-4 ms-2 lh-sm fw-semibold">{category.length}</p>
+                  <p className="lh-sm mb-3 ms-2">Total Category</p>
                 </div>
               </div>
               <div className="col m-2 shadow-sm rounded-5 bg-white">
@@ -54,8 +67,8 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div>
-                  <p className="fs-4 ms-2 lh-sm fw-semibold">10</p>
-                  <p className="lh-sm mb-3 ms-2">Total user</p>
+                  <p className="fs-4 ms-2 lh-sm fw-semibold">{user.length}</p>
+                  <p className="lh-sm mb-3 ms-2">Total User</p>
                 </div>
               </div>
             </div>

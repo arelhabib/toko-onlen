@@ -79,11 +79,14 @@ const updateUser = async (id, data) => {
 
 const getUserId = async (id, cb) => {
   try {
-    let result = await axios.get(URL + `/${id}`);
+    let result = await axios({
+      method: "GET",
+      url: URL + "/" + id,
+    });
 
     cb(result.data);
-  } catch (error) {
-    Swal.fire("Failed", "failed to fetch user id", "error");
+  } catch (e) {
+    console.log(e);
   }
 };
 

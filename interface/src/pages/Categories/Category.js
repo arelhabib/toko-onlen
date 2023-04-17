@@ -4,6 +4,7 @@ import { getCategories, removeCategory } from "../../axios/categoryAxios";
 import LoadData from "../../helpers/LoadData";
 import Navbar from "../Navbar";
 import { useNavigate } from "react-router-dom";
+import { FaTimes, FaEdit } from "react-icons/fa";
 
 const Category = () => {
   const [categories, setCategories] = useState([]);
@@ -55,12 +56,12 @@ const Category = () => {
                         <td>{name}</td>
 
                         <td>
-                          <Link to={`/category/edit/${id}`} className="btn btn-sm btn-warning me-2">
-                            Update
+                          <Link to={`/category/edit/${id}`} className="btn btn-sm btn-success me-2" title="edit">
+                            <FaEdit></FaEdit>
                           </Link>
-                          <button onClick={() => deleteHandler(+id)} className="btn btn-sm btn-danger">
+                          <button onClick={() => deleteHandler(+id)} className="btn btn-sm btn-danger" title="delete">
                             {" "}
-                            Delete
+                            <FaTimes></FaTimes>
                           </button>
                         </td>
                       </tr>

@@ -9,10 +9,11 @@ import CreateProduct from "./Products/CreateProduct";
 // User
 import User from "./Users/User";
 import CreateUser from "./Users/CreateUser";
+import EditUser from "./Users/EditUser";
 
 // Category
 import Category from "./Categories/Category";
 import CreateCategory from "./Categories/CreateCategory";
 import EditCategory from "./Categories/EditCategory";
 
-export { Home, Product, Dashboard, Navbar, CreateProduct, User, CreateUser, Category, CreateCategory, EditCategory };
+export { Home, Product, Dashboard, Navbar, CreateProduct, User, CreateUser, EditUser, Category, CreateCategory, EditCategory };

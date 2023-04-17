@@ -1,54 +1,53 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiUser, FiShoppingCart } from "react-icons/fi";
-import { MdOutlineDashboardCustomize } from "react-icons/md"
+import { MdOutlineDashboardCustomize } from "react-icons/md";
 import { loginUser } from "../axios/userAxios";
-import jwt_decode from "jwt-decode"
+import jwt_decode from "jwt-decode";
 
 const Home = () => {
-  const [loginStatus, setLoginStatus] = useState(false)
-  const [isAdmin, setIsAdmin] = useState(false)
+  const [loginStatus, setLoginStatus] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [form, setForm] = useState({
-    email: '',
-    password: '',
-  })
+    email: "",
+    password: "",
+  });
 
   const loginSubmitHandler = async (event) => {
     event.preventDefault();
     try {
       await loginUser(form, (result) => {
-        setLoginStatus(result)
-      })
+        setLoginStatus(result);
+      });
 
-      window.location.reload()
-    } catch (error) {
-    }
+      window.location.reload();
+    } catch (error) {}
   };
 
   const logoutHandler = () => {
-    localStorage.removeItem('access_token')
-    setLoginStatus(false)
-    setIsAdmin(false)
-  }
+    localStorage.removeItem("access_token");
+    setLoginStatus(false);
+    setIsAdmin(false);
+  };
 
   useEffect(() => {
-    let token = localStorage.getItem('access_token')
+    let token = localStorage.getItem("access_token");
     if (token) {
       let decoded = jwt_decode(token);
-        if (decoded.roleId === 1) {
-          setIsAdmin(true)
-        }
-      setLoginStatus(true)
+      if (decoded.roleId === 1) {
+        setIsAdmin(true);
+      }
+      setLoginStatus(true);
     } else {
-      setLoginStatus(false)
+      setLoginStatus(false);
     }
-  }, [loginStatus])
+  }, [loginStatus]);
 
   // console.log(isAdmin);
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-warning bg-light">
+      <nav className="navbar fixed-top navbar-expand-lg navbar-warning bg-light">
         <div className="container">
           <Link className="navbar-brand brand-logo fs-4 fw-bold" to="/">
             MeShop
@@ -83,24 +82,26 @@ const Home = () => {
 
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav ms-auto brand-logo">
-              {
-                loginStatus ?
-                  <>
-                    <Link className="nav-link" onClick={logoutHandler}>
-                      <FiUser className="fs-5 mb-1"></FiUser> Logout
-                    </Link>
-                  </> :
-                  <Link type="button" className="nav-link hover" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <FiUser className="fs-5 mb-1"></FiUser> Login / Register
+              {loginStatus ? (
+                <>
+                  <Link className="nav-link" onClick={logoutHandler}>
+                    <FiUser className="fs-5 mb-1"></FiUser> Logout
                   </Link>
-              }
-              {isAdmin ? <Link className="nav-link" to="/dashboard">
-                <MdOutlineDashboardCustomize className="fs-5 mb-1"></MdOutlineDashboardCustomize> Dashboard Menu
-              </Link> :
+                </>
+              ) : (
+                <Link type="button" className="nav-link hover" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <FiUser className="fs-5 mb-1"></FiUser> Login / Register
+                </Link>
+              )}
+              {isAdmin ? (
+                <Link className="nav-link" to="/dashboard">
+                  <MdOutlineDashboardCustomize className="fs-5 mb-1"></MdOutlineDashboardCustomize> Dashboard Menu
+                </Link>
+              ) : (
                 <Link className="nav-link" to="/items">
                   <FiShoppingCart className="fs-5 mb-1"></FiShoppingCart> Cart
                 </Link>
-              }
+              )}
             </div>
           </div>
         </div>

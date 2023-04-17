@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { accountUser, editUser } from "../../axios/userAxios";
+import { getUserId, updateUser } from "../../axios/userAxios";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../Navbar";
 
@@ -14,7 +14,7 @@ const EditUser = () => {
 
   const getUserInfo = () => {
     const { id } = params;
-    accountUser(+id, (result) => {
+    getUserId(+id, (result) => {
       setForm({
         username: result.username,
         email: result.email,
@@ -28,7 +28,7 @@ const EditUser = () => {
   }, []);
 
   const submitHandler = () => {
-    editUser(+params.id, form);
+    updateUser(+params.id, form);
     navigation("/users");
   };
 
