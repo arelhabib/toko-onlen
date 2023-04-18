@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createProduct } from "../../axios/productAxios";
+import { getCategories } from '../../axios/categoryAxios'
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 
@@ -9,9 +10,15 @@ const CreateProduct = () => {
     price: 0,
     stock: 0,
     description: "",
+    categoryId: null
   });
 
   const [image, setImage] = useState(null);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    getCategories((result) => setCategories(result));
+  }, []);
 
   const navigation = useNavigate();
 
@@ -22,6 +29,9 @@ const CreateProduct = () => {
     formData.append('price', form.price);
     formData.append('stock', form.stock);
     formData.append('description', form.description);
+    if (form.categoryId !== null) {
+      formData.append('categoryId', form.categoryId)
+    }
     createProduct(formData)
     navigation("/products");
   };
@@ -61,6 +71,19 @@ const CreateProduct = () => {
               <div className="mb-3 mx-5">
                 <label className="mb-2 fw-bold">Description </label>
                 <input onChange={(e) => setForm({ ...form, description: e.target.value })} type="text" className="form-control" autofocus></input>
+              </div>
+              <div className="mb-3 mx-5">
+                <label className="mb-2 fw-bold">Category </label>
+                <select className="form-select" onChange={(e) => setForm({ ...form, categoryId: e.target.value })}>
+                  <option disabled selected hidden value="">Pilih opsi</option>
+                  {
+                    categories.length > 0 ? (
+                      categories.map((category) => {
+                        return <option key={category.id} value={category.id}>{category.name}</option>
+                      })
+                    ) : (<></>)
+                  }
+                </select>
               </div>
               <div className="col mx-5 py-3">
                 <button onClick={() => submitHandler()} className="btn btn-block btn-primary w-100">
