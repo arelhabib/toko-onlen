@@ -61,17 +61,12 @@ const Product = () => {
                         <td>
                           <div class="row">
                             <div class="col-2">
-                              {
-                                imageData ?
-                                  <img class="img-fluid rounded-circle" src={"data:image/png;base64," + imageBase64} alt="" width="70px" />
-                                  :
-                                  <img class="img-fluid rounded-circle" src={"https://via.placeholder.com/200"} alt="" width="70px" />
-                              }
+                              <img class="img-fluid rounded-circle" src={imageData ? "data:image/png;base64," + imageBase64 : "https://via.placeholder.com/200"} alt="" width="70px" />
                             </div>
                             <div class="col-10">{name}</div>
                           </div>
                         </td>
-                        <td>{price}</td>
+                        <td>Rp. {price.toLocaleString('id')}</td>
                         <td>{stock}</td>
                         <td>
                           <Link to={`/products/edit/${id}`} className="btn btn-sm btn-success me-2" title="Edit">

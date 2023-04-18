@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiUser, FiShoppingCart, FiUserPlus } from "react-icons/fi";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
-import { loginUser } from "../axios/userAxios";
 import jwt_decode from "jwt-decode";
+import { loginUser } from "../axios/userAxios";
+import { getProduct } from "../axios/productAxios";
+import { getCategories } from "../axios/categoryAxios";
 
 const Home = () => {
   const [loginStatus, setLoginStatus] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [product, setProduct] = useState([]);
+  const [category, setCategory] = useState([]);
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -30,7 +34,17 @@ const Home = () => {
     window.location.reload()
   }
 
+  const categoryFilter = category.filter((category) => {
+    return product.some((product) => product.categoryId === category.id)
+  })
+
+  const otherCategory = product.filter((product) => {
+    return product.category === null
+  })
+
   useEffect(() => {
+    getProduct((result) => setProduct(result));
+    getCategories((result) => setCategory(result));
     let token = localStorage.getItem("access_token");
     if (token) {
       let decoded = jwt_decode(token);
@@ -41,9 +55,7 @@ const Home = () => {
     } else {
       setLoginStatus(false);
     }
-  }, [loginStatus]);
-
-  // console.log(isAdmin);
+  }, []);
 
   return (
     <>
@@ -55,30 +67,6 @@ const Home = () => {
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to="#">
-                  Home
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="#">
-                  Fashion Pria
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="#">
-                  Fashion Wanita
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="#">
-                  Fashion Anak
-                </Link>
-              </li>
-            </ul>
-          </div>
 
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav ms-auto brand-logo">
@@ -89,14 +77,14 @@ const Home = () => {
                   </Link>
                 </>
               ) : (
-                  <>
-                    <Link type="button" className="nav-link hover" to={'/register'}>
-                      <FiUserPlus className="fs-5 mb-1"></FiUserPlus> Register
-                    </Link>
+                <>
+                  <Link type="button" className="nav-link hover" to={'/register'}>
+                    <FiUserPlus className="fs-5 mb-1"></FiUserPlus> Register
+                  </Link>
                   <Link type="button" className="nav-link hover" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     <FiUser className="fs-5 mb-1"></FiUser> Login
                   </Link>
-                  </>
+                </>
               )}
               {isAdmin ? (
                 <Link className="nav-link" to="/dashboard">
@@ -147,7 +135,7 @@ const Home = () => {
       </div>
       {/* Jumbotron */}
       <div className="jumbotron py-5">
-        <div className="container pt-3">
+        <div className="container pt-4">
           <div className="w-50">
             <h1 className="display-4 fw-semibold">Ramadhan Style!</h1>
             <p className="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, totam nostrum. Sequi vero iusto ex eaque! Deleniti debitis, laboriosam doloremque officia vel aliquid velit consectetur.</p>
@@ -201,230 +189,95 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Fashion Pria */}
       <div className="container mb-5">
-        <div className="row">
-          <div className="mb-4">
-            <div className="row justify-content-between">
-              <div className="col fs-4 fw-bold ms-2 mb-3">Fashion Pria</div>
-              <div className="col text-end">
-                <Link to="#" className="me-2 mb-3 text-dark icon-link-hover">
-                  <p className="fw-semibold d-inline text-end w-50 hover">lihat semua</p>
-                </Link>
+        {categoryFilter.map(category => (
+          <div className="row mb-4" key={category.id}>
+            <div className="mb-4">
+              <div className="row justify-content-between">
+                <div className="col fs-4 fw-bold ms-2 mb-3">{category.name}</div>
+                <div className="col text-end">
+                  <Link to="#" className="me-2 mb-3 text-dark icon-link-hover">
+                    <p className="fw-semibold d-inline text-end w-50 hover">lihat semua</p>
+                  </Link>
+                </div>
               </div>
             </div>
+            {product.map(product => {
+              if (product.categoryId === category.id) {
+                let imageBase64 = null;
+                try {
+                  imageBase64 = btoa(String.fromCharCode(...new Uint8Array(product.imageData.data)));
+                } catch (error) { }
+                return (
+                  <div className="col-2" key={product.id}>
+                    <div className="card w-100 shadow-sm border-0">
+                      <img
+                        src={product.imageData ? "data:image/png;base64," + imageBase64 : "https://via.placeholder.com/200"}
+                        className="card-img-top w-100"
+                        title={product.name}
+                        alt="..."
+                      />
+                      <div className="card-body">
+                        <p className="card-title text-container">{product.name}</p>
+                        <p className="card-text fw-bold">Rp. {product.price.toLocaleString('id')}</p>
+                        <Link to="#" className="btn btn-outline-success w-100 rounded-4 fw-semibold">
+                          +Keranjang
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                )
+              }
+              else {
+                return null;
+              }
+            })}
           </div>
+        ))}
 
-          <div className="col-2">
-            <div className="card w-100 shadow-sm border-0">
-              <img
-                src="https://images.tokopedia.net/img/cache/200-square/VqbcmM/2023/4/8/f681a64a-ae35-4698-8828-628da0bc5516.jpg"
-                className="card-img-top w-100"
-                title="Casella Baju Koko Pria Lengan Pendek Exclusive Premium Quality HV - 4931 Mocca Grey, S"
-                alt="..."
-              />
-              <div className="card-body">
-                <p className="card-title text-container">Casella Baju Koko Pria Lengan Pendek Exclusive Premium Quality HV - 4931 Mocca Grey, S</p>
-                <p className="card-text fw-bold">RP.149.950</p>
-                <Link to="#" className="btn btn-outline-success w-100 rounded-4 fw-semibold">
-                  +Keranjang
-                </Link>
+        {
+          otherCategory.length > 0 ?
+            (
+              <div className="row">
+                <div className="mb-4">
+                  <div className="row justify-content-between">
+                    <div className="col fs-4 fw-bold ms-2 mb-3">Other</div>
+                    <div className="col text-end">
+                      <Link to="#" className="me-2 mb-3 text-dark icon-link-hover">
+                        <p className="fw-semibold d-inline text-end w-50 hover">lihat semua</p>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+                {otherCategory.map(product => {
+                  let imageBase64 = null;
+                  try {
+                    imageBase64 = btoa(String.fromCharCode(...new Uint8Array(product.imageData.data)));
+                  } catch (error) { }
+                  return (
+                    <div className="col-2" key={product.id}>
+                      <div className="card w-100 shadow-sm border-0">
+                        <img
+                          src={product.imageData ? "data:image/png;base64," + imageBase64 : "https://via.placeholder.com/200"}
+                          className="card-img-top w-100"
+                          title={product.name}
+                          alt="..."
+                        />
+                        <div className="card-body">
+                          <p className="card-title text-container">{product.name}</p>
+                          <p className="card-text fw-bold">RP. {product.price}</p>
+                          <Link to="#" className="btn btn-outline-success w-100 rounded-4 fw-semibold">
+                            +Keranjang
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="card w-100 shadow-sm border-0">
-              <img
-                src="https://images.tokopedia.net/img/cache/200-square/VqbcmM/2023/1/25/f7d8918a-a4d0-4068-8a35-cc41d6d4835f.jpg"
-                className="card-img-top w-100"
-                title="Koko Batik - Baju Koko pria - fashion muslim pria-koko batik kombinasi - koko kode E, M"
-                alt="..."
-              />
-              <div className="card-body">
-                <p className="card-title text-container">Koko Batik - Baju Koko pria - fashion muslim pria-koko batik kombinasi - koko kode E, M</p>
-                <p className="card-text fw-bold">RP.33.500</p>
-                <Link to="#" className="btn btn-outline-success w-100 rounded-4 fw-semibold">
-                  +Keranjang
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="card w-100 shadow-sm border-0">
-              <img src="https://images.tokopedia.net/img/cache/200-square/VqbcmM/2022/10/15/46422a08-83d9-41fa-a53e-51080d84add0.jpg" className="card-img-top w-100" title="peci rajut yaman polos fashion muslim pria - Cokelat" alt="..." />
-              <div className="card-body">
-                <p className="card-title text-container">peci rajut yaman polos fashion muslim pria - Cokelat</p>
-                <p className="card-text fw-bold">RP.22.400</p>
-                <Link to="#" className="btn btn-outline-success w-100 rounded-4 fw-semibold">
-                  +Keranjang
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="card w-100 shadow-sm border-0">
-              <img
-                src="https://images.tokopedia.net/img/cache/200-square/VqbcmM/2020/9/22/60224832-d12f-47b6-9cd9-978a0322a46c.jpg"
-                className="card-img-top w-100"
-                title="Celana SIRWAL Pria/ fashion muslim/ Pakaian muslim import Quality - Abu-abu, M"
-                alt="..."
-              />
-              <div className="card-body">
-                <p className="card-title text-container">Celana SIRWAL Pria/ fashion muslim/ Pakaian muslim import Quality - Abu-abu, M</p>
-                <p className="card-text fw-bold">RP.189.900</p>
-                <Link to="#" className="btn btn-outline-success w-100 rounded-4 fw-semibold">
-                  +Keranjang
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="card w-100 shadow-sm border-0">
-              <img
-                src="https://images.tokopedia.net/img/cache/200-square/hDjmkQ/2022/4/15/9f946c03-09a9-4c80-9e31-a0a66d8c54a9.jpg"
-                className="card-img-top w-100"
-                title="Sarung Celana Fashion Pria Muslim Trendy Terbaru Sarung Kain Busana"
-                alt="..."
-              />
-              <div className="card-body">
-                <p className="card-title text-container">Sarung Celana Fashion Pria Muslim Trendy Terbaru Sarung Kain Busana</p>
-                <p className="card-text fw-bold">RP.158.000</p>
-                <Link to="#" className="btn btn-outline-success w-100 rounded-4 fw-semibold">
-                  +Keranjang
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="card w-100 shadow-sm border-0">
-              <img
-                src="https://images.tokopedia.net/img/cache/200-square/product-1/2020/6/25/105430281/105430281_78065baa-e582-4fb2-be43-86d1b344815e_700_700"
-                className="card-img-top w-100"
-                title="ABBASY LINEN RAMI Baju Koko Kemeja Kurta Pakistan Fashion Muslim Pria - Maroon, L"
-                alt="..."
-              />
-              <div className="card-body">
-                <p className="card-title text-container">ABBASY LINEN RAMI Baju Koko Kemeja Kurta Pakistan Fashion Muslim Pria - Maroon, L</p>
-                <p className="card-text fw-bold">RP.115.000</p>
-                <Link to="#" className="btn btn-outline-success w-100 rounded-4 fw-semibold">
-                  +Keranjang
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Fashion Wanita */}
-      <div className="container mb-5">
-        <div className="row">
-          <div className="row justify-content-between">
-            <div className="col fs-4 fw-bold ms-2 mb-3">Fashion Perempuan</div>
-            <div className="col text-end">
-              <Link to="#" className="me-2 mb-3 text-dark icon-link-hover">
-                <p className="fw-semibold d-inline text-end w-50 hover">lihat semua</p>
-              </Link>
-            </div>
-          </div>
-
-          <div className="col-2">
-            <div className="card w-100 shadow-sm border-0">
-              <img
-                src="https://images.tokopedia.net/img/cache/200-square/hDjmkQ/2022/12/30/d37b1733-26f1-4a67-b551-a132f3076f31.jpg"
-                className="card-img-top w-100"
-                title="Seena - GAMIS SAKHILA Baju Gamis Bahan Katun Shakila Fashion Wanita Mo - Lilac, AllSizeLD112"
-                alt="..."
-              />
-              <div className="card-body">
-                <p className="card-title text-container">Seena - GAMIS SAKHILA Baju Gamis Bahan Katun Shakila Fashion Wanita Mo - Lilac, AllSizeLD112</p>
-                <p className="card-text fw-bold">RP.117.000</p>
-                <Link to="#" className="btn btn-outline-success w-100 rounded-4 fw-semibold">
-                  +Keranjang
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="card w-100 shadow-sm border-0">
-              <img
-                src="https://images.tokopedia.net/img/cache/200-square/VqbcmM/2022/12/16/97ce9407-0056-4bd0-b90f-ae85718da1b7.png"
-                className="card-img-top w-100"
-                title="Tunik atasan wanita tunic jumbo fashion muslim murah - Khaki"
-                alt="..."
-              />
-              <div className="card-body">
-                <p className="card-title text-container">KTunik atasan wanita tunic jumbo fashion muslim murah - Khaki</p>
-                <p className="card-text fw-bold">RP.99.000</p>
-                <Link to="#" className="btn btn-outline-success w-100 rounded-4 fw-semibold">
-                  +Keranjang
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="card w-100 shadow-sm border-0">
-              <img src="https://images.tokopedia.net/img/cache/200-square/VqbcmM/2022/10/15/46422a08-83d9-41fa-a53e-51080d84add0.jpg" className="card-img-top w-100" title="peci rajut yaman polos fashion muslim pria - Cokelat" alt="..." />
-              <div className="card-body">
-                <p className="card-title text-container">peci rajut yaman polos fashion muslim pria - Cokelat</p>
-                <p className="card-text fw-bold">RP.22.400</p>
-                <Link to="#" className="btn btn-outline-success w-100 rounded-4 fw-semibold">
-                  +Keranjang
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="card w-100 shadow-sm border-0">
-              <img
-                src="https://images.tokopedia.net/img/cache/200-square/VqbcmM/2020/12/22/74de4d61-a139-495e-a0ce-940257b74682.jpg"
-                className="card-img-top w-100"
-                title="GAMIS JERSEY BORDIR DRESS MUSLIM MAXI, FASHION MUSLIM WANITA, MUSLIM - MARUN, XL"
-                alt="..."
-              />
-              <div className="card-body">
-                <p className="card-title text-container">GAMIS JERSEY BORDIR DRESS MUSLIM MAXI, FASHION MUSLIM WANITA, MUSLIM - MARUN, XL</p>
-                <p className="card-text fw-bold">RP.100.000</p>
-                <Link to="#" className="btn btn-outline-success w-100 rounded-4 fw-semibold">
-                  +Keranjang
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="card w-100 shadow-sm border-0">
-              <img
-                src="https://images.tokopedia.net/img/cache/200-square/hDjmkQ/2021/11/16/7706cba5-5a5e-4849-a4f0-ecfe5d4fcc24.jpg"
-                title="Atasan Wanita Lengan Panjang Blouse Fashion Muslim Jumbo Big Size S M - Kuning, S"
-                className="card-img-top w-100"
-                alt="..."
-              />
-              <div className="card-body">
-                <p className="card-title text-container">Atasan Wanita Lengan Panjang Blouse Fashion Muslim Jumbo Big Size S M - Kuning, S</p>
-                <p className="card-text fw-bold">RP.158.000</p>
-                <Link to="#" className="btn btn-outline-success w-100 rounded-4 fw-semibold">
-                  +Keranjang
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="card w-100 shadow-sm border-0">
-              <img
-                src="https://images.tokopedia.net/img/cache/200-square/VqbcmM/2022/10/15/1e3fdbc9-685d-48a2-8cd9-56af7d7b6f3e.jpg"
-                className="card-img-top w-100"
-                title="COD benecia dress FASHION BAJU GAMIS DRESS MAXI SETELAN MUSLIM WANITA"
-                alt="..."
-              />
-              <div className="card-body">
-                <p className="card-title text-container">COD benecia dress FASHION BAJU GAMIS DRESS MAXI SETELAN MUSLIM WANITA</p>
-                <p className="card-text fw-bold">RP.170.000</p>
-                <Link to="#" className="btn btn-outline-success w-100 rounded-4 fw-semibold">
-                  +Keranjang
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
+            )
+            : (<></>)
+        }
       </div>
       <div className="py-4"></div>
 

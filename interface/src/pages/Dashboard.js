@@ -8,9 +8,9 @@ import { getCategories } from "../axios/categoryAxios";
 import { getUsers } from "../axios/userAxios";
 
 const Dashboard = () => {
-  const [product, setProduct] = useState([], 0);
-  const [user, setUser] = useState([], 0);
-  const [category, setCategory] = useState([], 0);
+  const [product, setProduct] = useState([]);
+  const [user, setUser] = useState([]);
+  const [category, setCategory] = useState([]);
 
   useEffect(() => {
     getProduct((result) => setProduct(result));
