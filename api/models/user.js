@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
             item.roleId = item.roleId || 2;
             item.password = await encryptPass(item.password);
           } catch (error) {
-            console.log(error);
+            // console.log(error);
           }
         },
       },
