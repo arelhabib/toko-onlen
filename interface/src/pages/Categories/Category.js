@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { getCategories, createCategory } from "../../axios/categoryAxios";
+import { Link } from "react-router-dom";
+import { getCategories, removeCategory } from "../../axios/categoryAxios";
 import LoadData from "../../helpers/LoadData";
 import Navbar from "../Navbar";
+import { useNavigate } from "react-router-dom";
+import { FaTimes, FaEdit } from "react-icons/fa";
 
 const Category = () => {
   const [categories, setCategories] = useState([]);
-
-  const navigate = useNavigate;
 
   useEffect(() => {
     getCategories((result) => setCategories(result));
   }, []);
 
+  const navigation = useNavigate();
   const deleteHandler = (id) => {
-    createCategory(id);
-    navigate("/categoriess");
+    removeCategory(id);
+    navigation("/category");
   };
 
   return (
@@ -32,7 +33,7 @@ const Category = () => {
             <div class="row justify-content-between">
               <div class="col fs-3 ms-2 mb-3">Category</div>
               <div class="col text-end">
-                <Link to="#" className="btn btn-primary me-2 mb-3">
+                <Link to="/category/create" className="btn btn-primary me-2 mb-3">
                   +Category
                 </Link>
               </div>
@@ -42,6 +43,7 @@ const Category = () => {
                 <tr className="text-center">
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
+                  <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -54,11 +56,12 @@ const Category = () => {
                         <td>{name}</td>
 
                         <td>
-                          <Link to={`/categoriess/edit/${id}`} className="btn btn-sm btn-info me-2">
-                            Edit
+                          <Link to={`/category/edit/${id}`} className="btn btn-sm btn-success me-2" title="edit">
+                            <FaEdit></FaEdit>
                           </Link>
-                          <button onClick={() => deleteHandler(+id)} className="btn btn-sm btn-danger">
-                            Delete
+                          <button onClick={() => deleteHandler(+id)} className="btn btn-sm btn-danger" title="delete">
+                            {" "}
+                            <FaTimes></FaTimes>
                           </button>
                         </td>
                       </tr>

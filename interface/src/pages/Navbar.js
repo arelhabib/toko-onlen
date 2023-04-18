@@ -1,8 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { BsBox, BsGrid, BsPeople, BsCardChecklist } from "react-icons/bs";
 
 const Navbar = () => {
+  const location = useLocation();
+  const hideNavbar = (location.pathname === '/register');
+
+  if (hideNavbar) {
+    return null;
+  }
+
   return (
     <>
       <div className="col-3 sidebar">
@@ -23,7 +30,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/categories" className="nav-link icon-link icon-link-hover">
+              <Link to="/category" className="nav-link icon-link icon-link-hover">
                 <BsCardChecklist className="fs-3 me-2"></BsCardChecklist> Category
               </Link>
             </li>

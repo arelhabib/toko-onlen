@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getUsers, removeUser } from "../../axios/userAxios";
 import LoadData from "../../helpers/LoadData";
 import Navbar from "../Navbar";
+import { useNavigate } from "react-router-dom";
+import { FaTimes, FaEdit } from "react-icons/fa";
 
 const User = () => {
   const [users, setUsers] = useState([]);
-
-  const navigate = useNavigate;
 
   useEffect(() => {
     getUsers((result) => setUsers(result));
   }, []);
 
+  const navigation = useNavigate();
   const deleteHandler = (id) => {
     removeUser(id);
-    navigate("/users");
+    navigation("/users");
   };
 
   return (
@@ -32,37 +33,39 @@ const User = () => {
             <div class="row justify-content-between">
               <div class="col fs-3 ms-2 mb-3">User</div>
               <div class="col text-end">
-                <Link to="#" className="btn btn-primary me-2 mb-3">
+                <Link to="/users/create" className="btn btn-primary me-2 mb-3">
                   +User
                 </Link>
               </div>
             </div>
-            <table class="table bg-white shadow-sm rounded-4">
+            <table class="table bg-white shadow-sm rounded-4 table-striped">
               <thead>
                 <tr className="text-center">
                   <th scope="col">#</th>
-                  <th scope="col">Name</th>
+                  <th scope="col">Username</th>
                   <th scope="col">Email</th>
-                  <th scope="col">Level Access</th>
+                  <th scope="col">Role</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {users.length > 0 ? (
                   users.map((User, index) => {
-                    const { id, username, email, password, roleId } = User;
+                    const { id, username, email, role } = User;
                     return (
                       <tr key={id} className="text-center">
                         <td>{index + 1}</td>
                         <td>{username}</td>
                         <td>{email}</td>
-                        <td>{roleId}</td>
+                        <td>{role.level_access}</td>
+
                         <td>
-                          <Link to={`/users/edit/${id}`} className="btn btn-sm btn-info me-2">
-                            Edit
+                          <Link to={`/users/edit/${id}`} className="btn btn-sm btn-success me-2" title="edit">
+                            <FaEdit></FaEdit>
                           </Link>
-                          <button onClick={() => deleteHandler(+id)} className="btn btn-sm btn-danger">
-                            Delete
+                          <button onClick={() => deleteHandler(+id)} className="btn btn-sm btn-danger" title="delete">
+                            {" "}
+                            <FaTimes></FaTimes>
                           </button>
                         </td>
                       </tr>

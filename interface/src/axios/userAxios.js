@@ -15,12 +15,12 @@ const getUsers = async (cb) => {
   }
 };
 
-const createUser = async (product) => {
+const addUser = async (user) => {
   try {
-    let result = await axios({
+    await axios({
       method: "POST",
-      url: URL,
-      data: product,
+      url: URL + "/register",
+      data: user,
     });
 
     Swal.fire("Add User", "User has been added", "success");
@@ -41,9 +41,9 @@ const removeUser = async (id) => {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        let result = await axios({
+        await axios({
           method: "DELETE",
-          url: URL + "/users/" + id,
+          url: URL + "/" + id,
         });
 
         Swal.fire("Deleted!", "Your file has been deleted.", "success");
@@ -54,4 +54,52 @@ const removeUser = async (id) => {
   }
 };
 
-export { getUsers, createUser, removeUser };
+const loginUser = async (data, cb) => {
+  try {
+    let result = await axios.post(URL + "/login", data);
+
+    const access_token = result.data.access_token;
+    localStorage.setItem("access_token", access_token);
+
+    cb(true);
+    window.location.reload();
+  } catch (error) {
+    let timerInterval;
+    Swal.fire({
+      title: "Failed",
+      text: "failed to login, email or password is incorrect",
+      timer: 2000,
+      timerProgressBar: true,
+      willClose: () => {
+        clearInterval(timerInterval);
+      },
+    }).then(() => {
+      window.location.reload();
+    });
+  }
+};
+
+const updateUser = async (id, data) => {
+  try {
+    await axios.put(URL + `/${id}`, data);
+
+    Swal.fire("Success", "succesfully deleted the user", "success");
+  } catch (error) {
+    Swal.fire("Failed", "failed to update user", "error");
+  }
+};
+
+const getUserId = async (id, cb) => {
+  try {
+    let result = await axios({
+      method: "GET",
+      url: URL + "/" + id,
+    });
+
+    cb(result.data);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export { getUsers, addUser, removeUser, loginUser, updateUser, getUserId };
