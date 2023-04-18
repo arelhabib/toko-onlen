@@ -1,4 +1,5 @@
 "use strict";
+const { user, role } = require("../models");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -12,23 +13,39 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert("categories", [
+    await role.bulkCreate([
       {
-        name: "gadget",
+        level_access: "admin",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      // {
+      //   level_access: "seller",
+      //   createdAt: new Date(),
+      //   updatedAt: new Date(),
+      // },
       {
-        name: "makanan",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        name: "elektronik",
+        level_access: "user",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
     ]);
+
+    await user.bulkCreate(
+      [
+        {
+          email: "admin@mail.com",
+          password: "adminpass",
+          roleId: 1,
+        },
+        {
+          username: "user",
+          email: "user@mail.com",
+          password: "userpass",
+        },
+      ],
+      { individualHooks: true }
+    );
   },
 
   async down(queryInterface, Sequelize) {

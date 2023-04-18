@@ -10,6 +10,7 @@ class UserController {
     try {
       let result = await user.findAll({
         include: [role],
+        attributes: { exclude: ["password"] },
         order: [["id", "DESC"]],
       });
 

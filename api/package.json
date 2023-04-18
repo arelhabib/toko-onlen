@@ -6,14 +6,13 @@
   "scripts": {
     "start": "node app.js",
     "test": "nodemon app.js",
-    "dbcreate": "sequelize db:create & sequelize db:migrate",
-    "dbdebug": "npm run dbdrop && npm run dbcreate && npm run dbseed",
-    "dbdrop": "sequelize db:drop",
+    "dbcreate": "npx sequelize-cli db:create",
+    "dbdebug": "npm run dbdrop & npm run dbcreate && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+    "dbdrop": "npx sequelize-cli db:drop",
     "dbreset": "npm run dbdrop && npm run dbcreate",
-    "dbseed": "sequelize db:seed:all",
-    "dbprod": "sequelize db:migrate & sequelize db:seed --seed 20230412064903-role.js",
+    "dbprod": "npx sequelize-cli db:migrate & npx sequelize-cli db:seed --seed 20230412064903-prod.js",
     "swaggen": "node ./utils/swaggerGen.js",
-    "mager": "npm run dbreset && npm run dbseed && npm test"
+    "mager": "npm run dbdebug && npm run swaggen && npm test"
   },
   "author": "",
   "license": "ISC",
@@ -26,11 +25,11 @@
     "multer": "^1.4.5-lts.1",
     "pg": "^8.10.0",
     "sequelize": "^6.31.0",
+    "sequelize-cli": "^6.6.0",
     "swagger-ui-express": "^4.6.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.22",
-    "sequelize-cli": "^6.6.0",
     "swagger-autogen": "^2.23.1"
   }
 }

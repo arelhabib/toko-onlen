@@ -301,27 +301,35 @@
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
                   "name": {
-                    "example": "any"
+                    "type": "string"
                   },
                   "price": {
-                    "example": "any"
+                    "type": "integer"
                   },
                   "stock": {
-                    "example": "any"
+                    "type": "integer"
                   },
                   "description": {
-                    "example": "any"
+                    "type": "string"
                   },
                   "categoryId": {
-                    "example": "any"
+                    "type": "integer"
+                  },
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
                   }
-                }
+                },
+                "required": [
+                  "name"
+                ]
               }
             }
           }
@@ -329,27 +337,6 @@
       }
     },
     "/products/{id}": {
-      "post": {
-        "tags": [
-          "Product"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
       "delete": {
         "tags": [
           "Product"
@@ -392,11 +379,24 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "access_token",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
@@ -406,27 +406,37 @@
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
                   "name": {
-                    "example": "any"
+                    "type": "string"
                   },
                   "price": {
-                    "example": "any"
+                    "type": "integer",
+                    "default": 0
                   },
                   "stock": {
-                    "example": "any"
+                    "type": "integer",
+                    "default": 0
                   },
                   "description": {
-                    "example": "any"
+                    "type": "string"
                   },
                   "categoryId": {
-                    "example": "any"
+                    "type": "integer"
+                  },
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
                   }
-                }
+                },
+                "required": [
+                  "name"
+                ]
               }
             }
           }
